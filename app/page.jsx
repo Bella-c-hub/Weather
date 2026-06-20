@@ -66,27 +66,33 @@ export default function Home() {
       <nav className="flex justify-between mb-6">
         <img src="/logo.svg" className="w-28" />
       </nav>
-    <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8">
-  <input
-    className="w-full sm:w-96 p-3 rounded bg-gray-800"
-  />
+      <div className="flex justify-center gap-3 mb-8">
+        <input
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          placeholder="Search city..."
+          className="w-96 p-3 rounded bg-gray-800"
+        />
 
-  <button className="bg-blue-500 px-5 py-3 rounded">
-    Search
-  </button>
-</div>
+        <button
+          onClick={getWeather}
+          className="bg-blue-500 px-5 rounded"
+        >
+          Search
+        </button>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {/* LEFT */}
         <div className="lg:col-span-2">
 
           {/* MAIN CARD */}
-          <div className="absolute inset-0 p-6 flex flex-col sm:flex-row justify-between items-center gap-6">
+          <div className="relative rounded-2xl overflow-hidden">
             <img src="/bg-today-large.svg" className="w-full h-64 object-cover" />
 
             <div className="absolute inset-0 p-6 flex justify-between items-center">
               <div>
-               <h2 className="text-xl sm:text-2xl font-bold">
+                <h2 className="text-2xl font-bold">
                   {weather ? `${weather.city}, ${weather.country}` : "Search city"}
                 </h2>
 
@@ -97,7 +103,7 @@ export default function Home() {
 
               <div className="flex items-center gap-4">
                 <img src="/sun.webp" className="w-16" />
-                <h1 className="text-5xl sm:text-6xl font-bold">
+                <h1 className="text-6xl font-bold">
                   {weather ? `${weather.temp}°` : "--°"}
                 </h1>
               </div>
@@ -106,8 +112,8 @@ export default function Home() {
 
           {/* STATS */}
           {weather && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 ">
+
               <div className="bg-gray-700 p-4 rounded-xl">
                 Feels Like
                 <div className="text-3xl font-bold">{weather.feelsLike}°</div>
@@ -132,32 +138,30 @@ export default function Home() {
           )}
 
           {/* DAILY FORECAST (FIXED) */}
-          <div className="mt-6 bg-gray-700 p-5 rounded-xl">
+         <div className="mt-6 bg-gray-700 p-5 rounded-xl overflow-hidden">
             <h2 className="font-bold mb-4">Daily Forecast</h2>
 
-         <div className="flex gap-3 overflow-x-auto pb-2">
-  {weather?.dailyTimes?.map((day, i) => (
-    <div
-      key={i}
-      className="min-w-30 bg-gray-900 p-3 rounded-lg text-center shrink-0"
-    >
-      <p className="text-sm">
-        {new Date(day).toLocaleDateString("en-US", {
-          weekday: "short",
-        })}
-      </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+              {weather?.dailyTimes?.map((day, i) => (
+                <div key={i} className="bg-gray-900 p-3 rounded-lg text-center ">
 
-      <img
-        src={getWeatherIcon(weather.dailyMax[i])}
-        className="w-8 mx-auto my-2"
-      />
+                  <p className="text-xs sm:text-sm">
+                    {new Date(day).toLocaleDateString("en-US", {
+                      weekday: "short",
+                    })}
+                  </p>
 
-      <p className="font-bold">
-        {weather.dailyMax[i]}° / {weather.dailyMin[i]}°
-      </p>
-    </div>
-  ))}
-</div>
+                  <img
+                    src={getWeatherIcon(weather.dailyMax[i])}
+                    className="w-8 mx-auto my-2"
+                  />
+
+                  <p className="font-bold">
+                    {weather.dailyMax[i]}° / {weather.dailyMin[i]}°
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
         </div>
